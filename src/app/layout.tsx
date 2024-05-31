@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
+import { SessionProvider } from "next-auth/react";
+import NextauthProvider from "@/components/Nextauth-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--inter",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,9 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={inter.className}>
-        <main className="flex flex-col ">{children}</main>
+        <NextauthProvider>
+          <Toaster theme="dark" richColors position="top-left" />
+          <main className="flex flex-col min-h-screen h-full">{children}</main>
+        </NextauthProvider>
       </body>
     </html>
   );

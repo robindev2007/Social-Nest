@@ -15,7 +15,7 @@ const HeaderRight = () => {
   return (
     <div className="relative">
       {buttons.map((button) => (
-        <div>
+        <div key={button.title}>
           <Button
             disabled={button.disabled}
             key={button.title}

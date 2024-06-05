@@ -5,7 +5,7 @@ export type post = {
   author: {
     id: string;
     name: string;
-    avaterUrl: string;
+    avatarUrl: string;
   };
   img: string;
   title: string;
@@ -30,7 +30,7 @@ export type PostWithAuthorData = Prisma.PostGetPayload<{
     title: true;
     author: {
       select: {
-        avater: true;
+        avatar: true;
         id: true;
         fullName: true;
       };

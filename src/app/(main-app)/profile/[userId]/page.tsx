@@ -4,6 +4,7 @@ import Profile from "./components/Profile";
 import { db } from "@/lib/prisma";
 import AboutmeCard from "./components/AboutmeCard";
 import UserPosts from "./components/UserPosts";
+import H2 from "@/components/ui/h2";
 
 const getUserPosts = async ({ userId }: { userId: string }) => {
   try {
@@ -19,7 +20,7 @@ const getUserPosts = async ({ userId }: { userId: string }) => {
         author: {
           select: {
             id: true,
-            avater: true,
+            avatar: true,
             fullName: true,
           },
         },
@@ -71,13 +72,13 @@ const UserPage = async ({
   return (
     <div className="flex flex-col gap-card">
       <Header />
-      <div className="grid grid-cols-5 gap-card px-2">
-        <div className="col-span-2 flex flex-col gap-card">
+      <div className="relative flex h-fit grid-cols-5 flex-col gap-card px-2 md:grid">
+        <div className="top-14 col-span-2 flex h-fit flex-col gap-card md:sticky md:max-w-md">
           <Profile user={userData} />
           <AboutmeCard />
         </div>
-        <div className="col-span-3">
-          {/* {posts ? <UserPosts posts={posts} /> : <span>No post found</span>} */}
+        <div className="col-span-3 flex flex-col gap-card pb-4 md:max-w-2xl">
+          {posts ? <UserPosts posts={posts} /> : <span>No post found</span>}
         </div>
       </div>
     </div>

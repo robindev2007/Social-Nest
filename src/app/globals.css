@@ -32,6 +32,8 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
+    --sidebar-width: 20rem;
+
     --radius: 0.5rem;
   }
 
@@ -46,7 +48,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 221 44% 41%;
+    --primary: 217 100% 51%;
     --primary-foreground: 222.2 47.4% 100%;
 
     --secondary: 210 2% 23%;
@@ -79,5 +81,5 @@
 }
 
 .card {
-  @apply rounded-md border bg-card shadow-md;
+  @apply rounded-md border bg-card shadow-xl;
 }

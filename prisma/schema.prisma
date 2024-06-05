@@ -11,15 +11,18 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  fullName  String
-  posts     Post[]
-  avater    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Like      Like[]
+  id             String         @id @default(uuid())
+  email          String         @unique
+  password       String
+  fullName       String
+  posts          Post[]
+  avatar         String         @default("")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  likes          Like[]
+  friends        Friend[]       @relation("UserFriends")
+  friendRequests Friend[]       @relation("FriendRequests")
+  notifications  Notification[]
 }
 
 model Post {
@@ -42,4 +45,27 @@ model Like {
   postId String
 }
 
+model Friend {
+  id         String    @id @default(uuid())
+  userId     String
+  friendId   String
+  status     String    @default("pending") // e.g., pending, accepted, blocked
+  createdAt  DateTime  @default(now())
+  acceptedAt DateTime?
 
+  user   User @relation("UserFriends", fields: [userId], references: [id])
+  friend User @relation("FriendRequests", fields: [friendId], references: [id])
+
+  @@unique([userId, friendId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  message   String
+  type      String // e.g., "friend_request", "like", "comment"
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}

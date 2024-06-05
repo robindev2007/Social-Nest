@@ -14,7 +14,7 @@ export const searchUser = async ({ name }: { name: string }) => {
       },
       select: {
         fullName: true,
-        avater: true,
+        avatar: true,
         id: true,
       },
     });

@@ -20,7 +20,7 @@ const CreatePostPopup = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"outline"} className="flex gap-2 items-center">
+        <Button variant={"outline"} className="flex items-center gap-2">
           <FcAddImage />
           Image
         </Button>
@@ -83,10 +83,10 @@ const CreatePostPopupContent = () => {
   }, [textValue]);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 flex flex-col">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
       <textarea
         ref={textAreaRef}
-        className="h-auto max-h-[50vh] outline-none border-none resize-none"
+        className="h-auto max-h-[30vh] resize-none border-none outline-none"
         placeholder="What is on your mind?"
         id="text"
         name="text"
@@ -96,7 +96,8 @@ const CreatePostPopupContent = () => {
         accept={{
           "image/jpeg": [".jpg", ".jpeg", ".png", ".webp"],
         }}
-        onDrop={(acceptedFiles) => handleFileChange(acceptedFiles[0])}>
+        onDrop={(acceptedFiles) => handleFileChange(acceptedFiles[0])}
+      >
         {({ getRootProps, getInputProps }) => (
           <section className="">
             <div {...getRootProps()}>
@@ -107,10 +108,10 @@ const CreatePostPopupContent = () => {
                   height={500}
                   width={500}
                   alt=""
-                  className="hover:opacity-60 cursor-pointer"
+                  className="cursor-pointer hover:opacity-60"
                 />
               ) : (
-                <div className="flex p-5 flex-col items-center gap-2 bg-secondary/90 hover:bg-secondary border-2 cursor-pointer border-dashed border-primary rounded-md">
+                <div className="flex cursor-pointer flex-col items-center gap-2 rounded-md border-2 border-dashed border-primary bg-secondary/90 p-5 hover:bg-secondary">
                   <FaFileUpload className="size-8 text-primary shadow-md" />
                   <span className="text-center">
                     Add image

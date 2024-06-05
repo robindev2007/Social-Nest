@@ -27,8 +27,8 @@ export const singUpWithCredential = async ({
       email,
       fullName,
       password: hashPassword,
-      avater:
-        "https://dseamzcnlda5cir3.public.blob.vercel-storage.com/avater/avatar-account-icon-default-social-media-profile-photo-vector-wwIW3e8V5Qr2JcZXgTHTSEetc8ZeXJ.jpg",
+      avatar:
+        "https://dseamzcnlda5cir3.public.blob.vercel-storage.com/avatar/avatar-account-icon-default-social-media-profile-photo-vector-wwIW3e8V5Qr2JcZXgTHTSEetc8ZeXJ.jpg",
     },
   });
 

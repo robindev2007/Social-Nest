@@ -8,6 +8,7 @@ import { FaMagnifyingGlass, FaArrowLeft } from "react-icons/fa6";
 import { useDebounce } from "use-debounce";
 import { searchUser } from "@/actions/user";
 import Link from "next/link";
+import { InputIithIcon } from "../InputWithSearchIcon";
 
 const HeaderSearch = () => {
   const [searchActive, setSearchActive] = useState(false);
@@ -21,6 +22,10 @@ const HeaderSearch = () => {
       >
         <FaMagnifyingGlass />
       </Button>
+      {/* <div>
+        <div></div>
+        <InputIithIcon placeholder="Search by name..." />
+      </div> */}
       {searchActive && <SearchComponent setSearchActive={setSearchActive} />}
     </div>
   );
@@ -29,7 +34,7 @@ const HeaderSearch = () => {
 type searchRes = {
   id: string;
   fullName: string;
-  avater: string;
+  avatar: string;
 };
 
 export default HeaderSearch;
@@ -107,7 +112,7 @@ export const SearchResult = ({ user }: { user: searchRes }) => {
       <p>{user.fullName}</p>
 
       <Avatar className="ml-auto rounded-md">
-        <AvatarImage src={user.avater} />
+        <AvatarImage src={user.avatar} />
       </Avatar>
     </Link>
   );

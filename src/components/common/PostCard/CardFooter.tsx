@@ -6,10 +6,10 @@ import { FaRegComment } from "react-icons/fa";
 import { PostWithAuthorData } from "@/types/post";
 import { addLike } from "@/actions/post";
 import LikeButton from "./ChatFooter/LikeButton";
-import { Separator } from "@/components/ui/separator";
+import { IoChatbubbleOutline } from "react-icons/io5";
+import { TbShare3 } from "react-icons/tb";
 
 const CardFooter = ({ post }: { post: PostWithAuthorData }) => {
-  
   const [optimisticPostData, setOptimisticPostData] = useOptimistic({
     likes: post._count.likes,
     liked: post.isLiked,
@@ -40,25 +40,27 @@ const CardFooter = ({ post }: { post: PostWithAuthorData }) => {
   };
 
   return (
-    <div className="space-y-2 px-2">
-      <div className="px-2 text-sm text-muted-foreground">
-        <span>{optimisticPostData.likes} likes</span>
-      </div>
-      <Separator orientation="horizontal" />
-      <div className="flex justify-between gap-2">
+    <div className="flex justify-between p-2 pb-0">
+      <div className="flex gap-2">
         <LikeButton onClick={addNewLike} liked={optimisticPostData.liked} />
         <Button
           variant={"ghost"}
-          className="flex w-full items-center gap-1 hover:bg-secondary"
+          size={"sm"}
+          className="flex items-center justify-center gap-1 text-center hover:bg-secondary"
         >
-          <FaRegComment className="size-5" /> Comments
+          <IoChatbubbleOutline className="size-5" />
+          <p className="pt-0">Comments</p>
         </Button>
         <Button
           variant={"ghost"}
-          className="flex w-full items-center gap-1 hover:bg-secondary"
+          size={"sm"}
+          className="flex items-center justify-center gap-1 text-center hover:bg-secondary"
         >
-          <HiThumbUp className="size-5" /> Share
+          <TbShare3 className="size-6" /> Share
         </Button>
+      </div>
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <span>Likes {optimisticPostData.likes}</span>
       </div>
     </div>
   );

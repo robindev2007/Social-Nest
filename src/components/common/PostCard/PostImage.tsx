@@ -13,7 +13,7 @@ const PostImage = ({ imgSrc }: { imgSrc: string }) => {
             height={900}
             width={500}
             alt={"post.title"}
-            className="w-full max-h-96 object-cover border-y"
+            className="max-h-[40rem] w-full border-y-2 object-cover"
           />
         </div>
       </DialogTrigger>
@@ -23,7 +23,7 @@ const PostImage = ({ imgSrc }: { imgSrc: string }) => {
           height={900}
           width={500}
           alt={"post.title"}
-          className="w-full h-full"
+          className="h-full w-full"
         />
       </DialogContent>
     </Dialog>

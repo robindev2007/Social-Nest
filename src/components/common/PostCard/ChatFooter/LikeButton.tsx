@@ -15,18 +15,19 @@ const LikeButton = ({
     <Button
       onClick={onClick}
       variant={"ghost"}
+      size={"sm"}
       className={cn(
-        "flex w-full items-center gap-1 font-semibold hover:bg-secondary",
+        "flex items-center gap-1 font-semibold hover:bg-secondary",
         liked && "fill-primary text-primary hover:text-primary",
       )}
     >
       {liked ? (
         <>
-          <HiThumbUp className="size-5" /> Like
+          <HiThumbUp className="size-6" /> <p className="pt-1">Like</p>
         </>
       ) : (
         <>
-          <HiOutlineThumbUp className="size-5" /> Like
+          <HiOutlineThumbUp className="size-6" /> <p className="pt-1">Like</p>
         </>
       )}
     </Button>

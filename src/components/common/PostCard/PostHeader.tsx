@@ -9,7 +9,7 @@ const PostHeader = ({ post }: { post: PostWithAuthorData }) => {
     <div className="flex gap-1">
       <Link href={`/profile/${post.author.id}`}>
         <Avatar>
-          <AvatarImage src={post.author.avater} />
+          <AvatarImage src={post.author.avatar} />
           <AvatarFallback>Aa</AvatarFallback>
         </Avatar>
       </Link>

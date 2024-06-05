@@ -3,6 +3,7 @@ import React from "react";
 import CreatePost from "./components/CreatePost";
 import { db } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
 const getPosts = async ({ userId }: { userId: string }) => {
   try {
@@ -15,7 +16,7 @@ const getPosts = async ({ userId }: { userId: string }) => {
         author: {
           select: {
             id: true,
-            avater: true,
+            avatar: true,
             fullName: true,
           },
         },
@@ -46,11 +47,11 @@ const getPosts = async ({ userId }: { userId: string }) => {
 };
 
 const MainAppPage = async () => {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   const posts = await getPosts({ userId: session?.user.id as string });
   return (
-    <div className="flex w-full flex-col gap-card md:max-w-xl">
-      <CreatePost />
+    <div className="flex w-full flex-col gap-card">
+      <CreatePost session={session} />
       <div className="flex flex-col justify-between gap-card">
         {posts.posts &&
           posts.posts?.map((post, i) => <PostCard key={i} post={post} />)}

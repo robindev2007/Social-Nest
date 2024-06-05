@@ -12,16 +12,13 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      padding: ".5rem",
     },
 
-    // fontFamily: {
-    //   inter: "var(--inter)",
-    // },
     extend: {
+      width: {
+        sidebar: "var(--sidebar-width)",
+      },
       gap: {
         card: "var(--card-gap)",
       },

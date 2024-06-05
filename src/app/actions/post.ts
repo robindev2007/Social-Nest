@@ -13,7 +13,7 @@ export const getPosts = async () => {
       title: true,
       author: {
         select: {
-          avater: true,
+          avatar: true,
           id: true,
           fullName: true,
         },

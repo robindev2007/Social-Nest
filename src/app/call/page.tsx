@@ -1,17 +1,17 @@
 "use client";
-import React, { FormEvent, useEffect, useRef, useState } from "react";
-import { DataConnection, Peer } from "peerjs";
+import React, { useEffect, useRef, useState } from "react";
+import { Peer } from "peerjs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const CallPage = () => {
   const [peerId, setPeerId] = useState("");
   const [friendId, setFriendId] = useState("");
-  const [messages, setMessages] = useState<string[]>([]);
-  const [message, setMessage] = useState("");
 
   const peerInstance = useRef<Peer>();
-  const connection = useRef<DataConnection>();
+  const localStreamRef = useRef<MediaStream | null>(null);
+  const remoteVideoRef = useRef<HTMLVideoElement>(null);
+  const localVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const peer = new Peer();
@@ -21,49 +21,59 @@ const CallPage = () => {
       setPeerId(id);
     });
 
-    peer.on("connection", (conn) => {
-      handleConnection(conn);
+    peer.on("call", (call) => {
+      // Answer the call automatically with the local stream
+      if (localStreamRef.current) {
+        call.answer(localStreamRef.current);
+        handleCall(call);
+      }
     });
 
     peerInstance.current = peer;
 
+    // Get the local video stream
+    navigator.mediaDevices
+      .getUserMedia({ video: true,audio:true })
+      .then((stream) => {
+        localStreamRef.current = stream;
+        if (localVideoRef.current) {
+          localVideoRef.current.srcObject = stream;
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to get local stream", err);
+      });
+
     return () => {
       peer.destroy();
+      if (localStreamRef.current) {
+        localStreamRef.current.getTracks().forEach((track) => track.stop());
+      }
     };
   }, []);
 
-  const handleConnection = (conn: DataConnection) => {
-    connection.current = conn;
-
-    conn.on("data", (data) => {
-      console.log("Received data: ", data);
-      setMessages((prevMessages) => [...prevMessages, data as string]);
+  const handleCall = (call: any) => {
+    call.on("stream", (remoteStream: MediaStream) => {
+      if (remoteVideoRef.current) {
+        remoteVideoRef.current.srcObject = remoteStream;
+      }
     });
 
-    conn.on("open", () => {
-      console.log("Connection opened with ID: " + conn.peer);
-      conn.send("Hi, I'm connected!");
+    call.on("close", () => {
+      console.log("Call ended");
     });
 
-    conn.on("close", () => {
-      console.log("Connection closed with ID: " + conn.peer);
+    call.on("error", (err: any) => {
+      console.error("Call error: ", err);
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!connection.current || !message.trim()) return;
+  const initiateCall = () => {
+    if (!peerInstance.current || !friendId.trim() || !localStreamRef.current)
+      return;
 
-    connection.current.send(message);
-    setMessages((prevMessages) => [...prevMessages, message]);
-    setMessage("");
-  };
-
-  const connectToPeer = () => {
-    if (!peerInstance.current || !friendId.trim()) return;
-
-    const conn = peerInstance.current.connect(friendId);
-    handleConnection(conn);
+    const call = peerInstance.current.call(friendId, localStreamRef.current);
+    handleCall(call);
   };
 
   return (
@@ -75,23 +85,15 @@ const CallPage = () => {
           value={friendId}
           onChange={(e) => setFriendId(e.target.value)}
         />
-        <Button onClick={connectToPeer}>Connect</Button>
+        <Button onClick={initiateCall}>Call</Button>
       </div>
-      <form onSubmit={handleSubmit}>
-        <Input
-          placeholder="Message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <Button type="submit">Send</Button>
-      </form>
       <div>
-        <h3>Messages:</h3>
-        <ul>
-          {messages.map((msg, index) => (
-            <li key={index}>{msg}</li>
-          ))}
-        </ul>
+        <h3>Local Video</h3>
+        <video ref={localVideoRef} autoPlay muted style={{ width: "300px" }} />
+      </div>
+      <div>
+        <h3>Remote Video</h3>
+        <video ref={remoteVideoRef} autoPlay style={{ width: "300px" }} />
       </div>
     </div>
   );
